@@ -77,7 +77,7 @@ open class SBUContentBaseMessageCell: SBUBaseMessageCell {
     
     public var mainContainerView: SBUSelectableStackView = {
         let mainView = SBUSelectableStackView()
-        mainView.layer.cornerRadius = 16
+        mainView.layer.cornerRadius = 3
         mainView.layer.borderColor = UIColor.clear.cgColor
         mainView.layer.borderWidth = 1
         mainView.clipsToBounds = true
@@ -329,7 +329,8 @@ open class SBUContentBaseMessageCell: SBUBaseMessageCell {
     }
     
     private func updateContentsPosition() {
-        self.profileView.isHidden = self.position == .right
+        
+      self.profileView.isHidden = self.position == .right
         
         self.contentHStackView.arrangedSubviews.forEach {
             $0.removeFromSuperview()
@@ -361,6 +362,7 @@ open class SBUContentBaseMessageCell: SBUBaseMessageCell {
                     self.contentVStackView
                 ])
                 
+                self.mainContainerView.roundCorners(corners: [.topRight, .bottomLeft, .bottomRight], radius: 16)
             case .right:
                 self.userNameStackView.alignment = .trailing
                 self.messageHStackView.setHStack([
@@ -376,6 +378,8 @@ open class SBUContentBaseMessageCell: SBUBaseMessageCell {
                     self.contentVStackView,
                     self.profileContentSpacing
                 ])
+          
+                self.mainContainerView.roundCorners(corners: [.topLeft, .bottomLeft, .bottomRight], radius: 16)
                 
             case .center:
                 break
@@ -409,7 +413,7 @@ open class SBUContentBaseMessageCell: SBUBaseMessageCell {
         
         self.updateTopAnchorConstraint()
     }
-    
+
     public override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         self.mainContainerView.isSelected = selected

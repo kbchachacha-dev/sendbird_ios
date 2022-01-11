@@ -24,7 +24,7 @@ public class SBUActionSheetItem: SBUCommonItem {
                          image: UIImage? = nil,
                          font: UIFont? = nil,
                          tintColor: UIColor? = nil,
-                         textAlignment: NSTextAlignment = .left) {
+                         textAlignment: NSTextAlignment = .center) {
         super.init(title: title,
                    color: color,
                    image: image,
@@ -46,7 +46,7 @@ public class SBUActionSheetItem: SBUCommonItem {
                 color: UIColor? = nil,
                 image: UIImage? = nil,
                 font: UIFont? = nil,
-                textAlignment: NSTextAlignment = .left,
+                textAlignment: NSTextAlignment = .center,
                 completionHandler: SBUActionSheetHandler?) {
         super.init(
             title: title,

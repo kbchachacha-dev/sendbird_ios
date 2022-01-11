@@ -624,19 +624,19 @@ open class SBUMessageInputView: UIView, SBUActionSheetDelegate, UITextViewDelega
         self.saveButton?.setTitleColor(theme.saveButtonTextColor, for: .normal)
         self.saveButton?.titleLabel?.font = theme.saveButtonFont
         
-        // Item
-        self.cameraItem.image = SBUIconSetType.iconCamera.image(
-            with: theme.buttonTintColor,
-            to: SBUIconSetType.Metric.iconActionSheetItem
-        )
-        self.libraryItem.image = SBUIconSetType.iconPhoto.image(
-            with: theme.buttonTintColor,
-            to: SBUIconSetType.Metric.iconActionSheetItem
-        )
-        self.documentItem.image = SBUIconSetType.iconDocument.image(
-            with: theme.buttonTintColor,
-            to: SBUIconSetType.Metric.iconActionSheetItem
-        )
+        // Item Image 취소
+//        self.cameraItem.image = SBUIconSetType.iconCamera.image(
+//            with: theme.buttonTintColor,
+//            to: SBUIconSetType.Metric.iconActionSheetItem
+//        )
+//        self.libraryItem.image = SBUIconSetType.iconPhoto.image(
+//            with: theme.buttonTintColor,
+//            to: SBUIconSetType.Metric.iconActionSheetItem
+//        )
+//        self.documentItem.image = SBUIconSetType.iconDocument.image(
+//            with: theme.buttonTintColor,
+//            to: SBUIconSetType.Metric.iconActionSheetItem
+//        )
         self.cancelItem.color = theme.buttonTintColor
         
         self.divider.backgroundColor = theme.channelViewDividerColor
@@ -768,7 +768,7 @@ open class SBUMessageInputView: UIView, SBUActionSheetDelegate, UITextViewDelega
     // MARK: - Action
     @objc open func onClickAddButton(_ sender: Any) {
         self.endEditing(true)
-        let itmes = [self.cameraItem, self.libraryItem, self.documentItem]
+        let itmes = [self.cameraItem, self.libraryItem]
         SBUActionSheet.show(
             items: itmes,
             cancelItem: self.cancelItem,
