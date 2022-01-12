@@ -834,11 +834,11 @@ public class SBUMessageCellTheme: NSObject {
         let theme = SBUMessageCellTheme()
         theme.backgroundColor = .clear
         
-        theme.leftBackgroundColor = SBUColorSet.background100
-        theme.leftPressedBackgroundColor = SBUColorSet.primary100
-        theme.rightBackgroundColor = SBUColorSet.primary300
-        theme.rightPressedBackgroundColor = SBUColorSet.primary400
-        
+        theme.leftBackgroundColor = SBUColorSet.kbcLeftBackground
+        theme.leftPressedBackgroundColor = SBUColorSet.kbcLeftBackground
+        theme.rightBackgroundColor = SBUColorSet.kbcRightBackground
+        theme.rightPressedBackgroundColor = SBUColorSet.kbcRightBackground
+      
         theme.openChannelBackgroundColor = .clear
         theme.openChannelPressedBackgroundColor = SBUColorSet.background100
         
@@ -871,11 +871,11 @@ public class SBUMessageCellTheme: NSObject {
         
         // User messgae
         theme.userMessageFont = SBUFontSet.body3
-        theme.userMessageLeftTextColor = SBUColorSet.onlight01
-        theme.userMessageLeftEditTextColor = SBUColorSet.onlight02
+        theme.userMessageLeftTextColor = SBUColorSet.kbcText
+        theme.userMessageLeftEditTextColor = SBUColorSet.kbcText
         
-        theme.userMessageRightTextColor = SBUColorSet.ondark01
-        theme.userMessageRightEditTextColor = SBUColorSet.ondark02
+        theme.userMessageRightTextColor = SBUColorSet.kbcText
+        theme.userMessageRightEditTextColor = SBUColorSet.kbcText
         
         // File message
         theme.fileIconBackgroundColor = SBUColorSet.background50
@@ -1117,12 +1117,12 @@ public class SBUMessageCellTheme: NSObject {
                 readReceiptStateColor: UIColor = SBUColorSet.secondary300,
                 deliveryReceiptStateColor: UIColor = SBUColorSet.onlight03,
                 userMessageFont: UIFont = SBUFontSet.body3,
-                userMessageLeftTextColor: UIColor = SBUColorSet.onlight01,
-                userMessageLeftEditTextColor: UIColor = SBUColorSet.onlight02,
-                userMessageLeftHighlightTextColor: UIColor = SBUColorSet.onlight01,
-                userMessageRightTextColor: UIColor = SBUColorSet.ondark01,
-                userMessageRightEditTextColor: UIColor = SBUColorSet.ondark02,
-                userMessageRightHighlightTextColor: UIColor = SBUColorSet.onlight01,
+                userMessageLeftTextColor: UIColor = SBUColorSet.kbcText,
+                userMessageLeftEditTextColor: UIColor = SBUColorSet.kbcText,
+                userMessageLeftHighlightTextColor: UIColor = SBUColorSet.kbcText,
+                userMessageRightTextColor: UIColor = SBUColorSet.kbcText,
+                userMessageRightEditTextColor: UIColor = SBUColorSet.kbcText,
+                userMessageRightHighlightTextColor: UIColor = SBUColorSet.kbcText,
                 fileIconBackgroundColor: UIColor = SBUColorSet.background50,
                 fileImageBackgroundColor: UIColor = SBUColorSet.ondark01,
                 fileImageIconColor: UIColor = SBUColorSet.onlight02,

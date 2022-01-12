@@ -67,7 +67,7 @@ open class SBUUserMessageCell: SBUContentBaseMessageCell {
             }
         }
         
-        self.messageTextView.addGestureRecognizer(self.contentLongPressRecognizer)
+        //self.messageTextView.addGestureRecognizer(self.contentLongPressRecognizer)
         self.messageTextView.addGestureRecognizer(self.contentTapRecognizer)
 
         self.webView.addGestureRecognizer(UITapGestureRecognizer(

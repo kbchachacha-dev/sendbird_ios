@@ -603,14 +603,14 @@ open class SBUMessageInputView: UIView, SBUActionSheetDelegate, UITextViewDelega
             .image(with:
                     (self.isFrozen || self.isMuted)
                     ? theme.buttonDisabledTintColor
-                    : theme.buttonTintColor,
+                    : nil,
                    to: SBUIconSetType.Metric.defaultIconSize)
         self.addButton?.setImage(iconAdd, for: .normal)
         
         // IconSend
         self.sendButton?.setImage(
             SBUIconSetType.iconSend.image(
-                with: theme.buttonTintColor,
+                with: nil,
                 to: SBUIconSetType.Metric.defaultIconSize
             ),
             for: .normal)

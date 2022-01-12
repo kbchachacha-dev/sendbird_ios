@@ -62,5 +62,10 @@ public class SBUColorSet: NSObject {
 
     // MARK: - Highlight
     public static var highlight = UIColor(red: 1.0, green: 242.0 / 255.0, blue: 182.0 / 255.0, alpha: 1.0)
+  
+    // MARK: - KBC Color
+    public static var kbcLeftBackground = UIColor(red: 229.0 / 255.0, green: 243.0 / 255.0, blue: 255.0 / 255.0, alpha: 1.0)
+    public static var kbcRightBackground = UIColor(red: 255.0 / 255.0, green: 240.0 / 255.0, blue: 181.0 / 255.0, alpha: 1.0)
+    public static var kbcText = UIColor(red: 34.0 / 255.0, green: 34.0 / 255.0, blue: 34.0 / 255.0, alpha: 1.0)
     
 }

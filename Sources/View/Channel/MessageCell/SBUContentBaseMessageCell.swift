@@ -22,7 +22,6 @@ open class SBUContentBaseMessageCell: SBUBaseMessageCell {
     
     public lazy var userNameView: UIView = {
         let userNameView = SBUUserNameView()
-        userNameView.leftMargin = 50
         return userNameView
     }()
     
@@ -39,12 +38,16 @@ open class SBUContentBaseMessageCell: SBUBaseMessageCell {
     public lazy var userNameStackView: UIStackView = {
         return SBUStackView(axis: .vertical, spacing: 4)
     }()
-    
+      
     // + -------------+-----------------------+-------------------+
     // | profileView  | profileContentSpacing | contentVStackView |
     // + -------------+-----------------------+-------------------+
     public lazy var contentHStackView: UIStackView = {
         return SBUStackView(axis: .horizontal, alignment: .bottom, spacing: 4)
+    }()
+  
+    public lazy var userProfileStackView: UIStackView = {
+        return SBUStackView(axis: .horizontal, alignment: .center, spacing: 4)
     }()
     
     // MARK: Properties
@@ -87,6 +90,7 @@ open class SBUContentBaseMessageCell: SBUBaseMessageCell {
     var reactionView: SBUMessageReactionView = SBUMessageReactionView()
     lazy var profileContentSpacing: UIView = UIView()
     private let messageSpacing = UIView()
+    lazy var messageContentSpacing: UIView = UIView()
 
     
     // MARK: - Gesture Recognizers
@@ -117,10 +121,13 @@ open class SBUContentBaseMessageCell: SBUBaseMessageCell {
         // + -------------+-----------------------+-------------------+
         
         self.userNameStackView.setVStack([
-            self.userNameView,
+            
+            self.userProfileStackView.setHStack([
+              self.profileView,
+              self.userNameView
+            ]),
             self.contentHStackView.setHStack([
-                self.profileView,
-                self.profileContentSpacing,
+                self.messageContentSpacing,
                 self.contentVStackView.setVStack([
                     self.quotedMessageView,
                     self.messageHStackView.setHStack([
@@ -143,6 +150,12 @@ open class SBUContentBaseMessageCell: SBUBaseMessageCell {
             self.profileContentSpacing.widthAnchor.constraint(equalToConstant: 4),
             self.profileContentSpacing.heightAnchor.constraint(equalToConstant: 4)
         ])
+      
+        NSLayoutConstraint.activate([
+            self.messageContentSpacing.widthAnchor.constraint(equalToConstant: 35),
+            self.messageContentSpacing.heightAnchor.constraint(equalToConstant: 4)
+        ])
+      
         
         self.userNameStackView
             .setConstraint(from: self.messageContentView, left: 12, right: 12, bottom: 0)
@@ -157,10 +170,10 @@ open class SBUContentBaseMessageCell: SBUBaseMessageCell {
             action: #selector(self.onTapContentView(sender:)))
         )
 
-        self.profileView.addGestureRecognizer(UITapGestureRecognizer(
-            target: self,
-            action: #selector(self.onTapUserProfileView(sender:)))
-        )
+//        self.profileView.addGestureRecognizer(UITapGestureRecognizer(
+//            target: self,
+//            action: #selector(self.onTapUserProfileView(sender:)))
+//        )
 
         self.reactionView.emojiTapHandler = { [weak self] emojiKey in
             guard let self = self else { return }
@@ -343,10 +356,21 @@ open class SBUContentBaseMessageCell: SBUBaseMessageCell {
         self.messageHStackView.arrangedSubviews.forEach {
             $0.removeFromSuperview()
         }
+      
+        self.userProfileStackView.arrangedSubviews.forEach {
+            $0.removeFromSuperview()
+        }
         
         switch self.position {
             case .left:
                 self.userNameStackView.alignment = .leading
+          
+                self.userProfileStackView.setHStack([
+                  self.profileView,
+                  self.profileContentSpacing,
+                  self.userNameView
+                ])
+          
                 self.messageHStackView.setHStack([
                     self.mainContainerView,
                     self.stateView,
@@ -357,8 +381,7 @@ open class SBUContentBaseMessageCell: SBUBaseMessageCell {
                     self.messageHStackView
                 ])
                 self.contentHStackView.setHStack([
-                    self.profileView,
-                    self.profileContentSpacing,
+                    self.messageContentSpacing,
                     self.contentVStackView
                 ])
                 
