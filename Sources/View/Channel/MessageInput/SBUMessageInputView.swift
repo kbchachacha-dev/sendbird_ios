@@ -637,7 +637,7 @@ open class SBUMessageInputView: UIView, SBUActionSheetDelegate, UITextViewDelega
 //            with: theme.buttonTintColor,
 //            to: SBUIconSetType.Metric.iconActionSheetItem
 //        )
-        self.cancelItem.color = theme.buttonTintColor
+        self.cancelItem.color = .black
         
         self.divider.backgroundColor = theme.channelViewDividerColor
     }
