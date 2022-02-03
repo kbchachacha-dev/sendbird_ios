@@ -62,6 +62,10 @@ open class SBUMessageStateView: SBUView {
         ? SBUStackView(axis: .horizontal, alignment: .center, spacing: 4)
         : SBUStackView(axis: .vertical, alignment: .leading)
     }()
+  
+    public lazy var timeStackView: SBUStackView = {
+        return SBUStackView(axis: .horizontal, alignment: .center, spacing: 2)
+    }()
     
     /// `UIImageView` representing message sending/receipt state
     /// - Since: 2.1.13
@@ -82,7 +86,11 @@ open class SBUMessageStateView: SBUView {
     
     private let timeLabelWidth: CGFloat = 55
     private let timeLabelHeight: CGFloat = 12
-    
+  
+    public var receiptLabel: UILabel = UILabel()
+    private let receiptLabelWidth: CGFloat = 25
+    private let receiptLabelHeight: CGFloat = 12
+  
     // MARK: Internal Properties (View models)
     var timestamp: Int64 = 0
     var sendingState: SBDMessageSendingStatus = .none
@@ -122,7 +130,9 @@ open class SBUMessageStateView: SBUView {
         self.addSubview(self.stackView)
         self.stackView.setVStack([
             self.stateImageView,
-            self.timeLabel
+            self.timeStackView.setHStack([
+              self.timeLabel, self.receiptLabel
+            ])
         ])
     }
     
@@ -133,7 +143,7 @@ open class SBUMessageStateView: SBUView {
         let timeLabelHeight = self.timeLabelCustomSize?.height ?? self.timeLabelHeight
         
         self.stateImageView.contentMode = .center
-        self.setConstraint(width: isQuotedReplyMessage ? timeLabelWidth + 16.0 : timeLabelWidth)
+        self.setConstraint(width: isQuotedReplyMessage ? timeLabelWidth + 16.0 : timeLabelWidth + 25.0)
         self.stackView.setConstraint(
             from: self,
             left: 0,
@@ -150,6 +160,7 @@ open class SBUMessageStateView: SBUView {
                 .setConstraint(width: timeLabelWidth, height: timeLabelHeight)
         }
         self.stateImageView.setConstraint(height: 12)
+      
     }
     
     open override func setupStyles() {
@@ -159,6 +170,9 @@ open class SBUMessageStateView: SBUView {
         
         self.timeLabel.font = theme.timeFont
         self.timeLabel.textColor = theme.timeTextColor
+      
+        self.receiptLabel.font = theme.timeFont
+        self.receiptLabel.textColor = theme.timeTextColor
     }
     
     /// Configures views with `SBUMessageStateViewParams` which contains  message information.
@@ -194,11 +208,14 @@ open class SBUMessageStateView: SBUView {
                     ])
             }
         }
+
         switch position {
             case .center:
                 self.stackView.alignment = .center
                 self.timeLabel.textAlignment = .center
+                self.receiptLabel.textAlignment = .center
                 self.stateImageView.isHidden = false
+                self.receiptLabel.isHidden = false
             case .left:
                 self.stackView.alignment = isQuotedReplyMessage
                 ? .center
@@ -207,14 +224,21 @@ open class SBUMessageStateView: SBUView {
                 ? .right
                 : .left
                 self.stateImageView.isHidden = true
+                self.receiptLabel.isHidden = true
             case .right:
+               
                 self.stackView.alignment = isQuotedReplyMessage
                 ? .center
                 : .trailing
                 self.timeLabel.textAlignment = isQuotedReplyMessage
                 ? .left
                 : .right
+                self.receiptLabel.textAlignment = isQuotedReplyMessage
+                ? .left
+                : .right
+                self.receiptLabel.isHidden = false
                 self.stateImageView.isHidden = false
+          
         }
         
         guard !self.stateImageView.isHidden else { return }
@@ -247,20 +271,14 @@ open class SBUMessageStateView: SBUView {
                     case .notUsed:
                         stateImage = nil
                     case .none:
-                        stateImage = SBUIconSetType.iconDone.image(
-                            with: theme.succeededStateColor,
-                            to: SBUIconSetType.Metric.defaultIconSizeSmall
-                        )
+                        self.receiptLabel.text = "안읽음"
+                        stateImage = nil
                     case .read:
-                        stateImage = SBUIconSetType.iconDoneAll.image(
-                            with: theme.readReceiptStateColor,
-                            to: SBUIconSetType.Metric.defaultIconSizeSmall
-                        )
+                        self.receiptLabel.text = "읽음"
+                        stateImage = nil
                     case .delivered:
-                        stateImage = SBUIconSetType.iconDoneAll.image(
-                            with: theme.deliveryReceiptStateColor,
-                            to: SBUIconSetType.Metric.defaultIconSizeSmall
-                        )
+                        self.receiptLabel.text = "안읽음"
+                        stateImage = nil
                 }
             @unknown default:
                 stateImage = nil

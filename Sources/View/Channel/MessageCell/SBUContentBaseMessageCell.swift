@@ -410,24 +410,29 @@ open class SBUContentBaseMessageCell: SBUBaseMessageCell {
         
         let profileImageView = (self.profileView as? SBUMessageProfileView)?.imageView
         let timeLabel = (self.stateView as? SBUMessageStateView)?.timeLabel
+        let receiptLabel = (self.stateView as? SBUMessageStateView)?.receiptLabel
         
         switch self.groupPosition {
             case .top:
                 self.userNameView.isHidden = self.position == .right
                 profileImageView?.isHidden = true
                 timeLabel?.isHidden = true
+                receiptLabel?.isHidden = true
             case .middle:
                 self.userNameView.isHidden = true
                 profileImageView?.isHidden = true
                 timeLabel?.isHidden = true
+                receiptLabel?.isHidden = true
             case .bottom:
                 self.userNameView.isHidden = true
                 profileImageView?.isHidden = false
                 timeLabel?.isHidden = false
+                receiptLabel?.isHidden = false
             case .none:
                 self.userNameView.isHidden = self.position == .right
                 profileImageView?.isHidden = false
                 timeLabel?.isHidden = false
+                receiptLabel?.isHidden = false
         }
         
         if usingQuotedMessage {
