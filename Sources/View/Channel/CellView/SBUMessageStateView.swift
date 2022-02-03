@@ -250,7 +250,7 @@ open class SBUMessageStateView: SBUView {
                 stateImage = nil
             case .pending:
                 stateImage = SBUIconSetType.iconSpinner.image(
-                    with: theme.pendingStateColor,
+                    with: SBUColorSet.kbcPrimary,
                     to: SBUIconSetType.Metric.defaultIconSizeSmall
                 )
                 
@@ -263,7 +263,7 @@ open class SBUMessageStateView: SBUView {
                 
             case .failed, .canceled:
                 stateImage = SBUIconSetType.iconError.image(
-                    with: theme.failedStateColor,
+                    with: SBUColorSet.kbcPrimary,
                     to: SBUIconSetType.Metric.defaultIconSizeSmall
                 )
             case .succeeded:

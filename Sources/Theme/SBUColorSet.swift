@@ -67,5 +67,6 @@ public class SBUColorSet: NSObject {
     public static var kbcLeftBackground = UIColor(red: 229.0 / 255.0, green: 243.0 / 255.0, blue: 255.0 / 255.0, alpha: 1.0)
     public static var kbcRightBackground = UIColor(red: 255.0 / 255.0, green: 240.0 / 255.0, blue: 181.0 / 255.0, alpha: 1.0)
     public static var kbcText = UIColor(red: 34.0 / 255.0, green: 34.0 / 255.0, blue: 34.0 / 255.0, alpha: 1.0)
+    public static var kbcPrimary = UIColor(red: 255.0 / 255.0, green: 204.0 / 255.0, blue: 0.0 / 255.0, alpha: 1.0)
     
 }
