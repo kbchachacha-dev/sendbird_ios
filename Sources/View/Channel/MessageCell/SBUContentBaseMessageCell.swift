@@ -94,9 +94,30 @@ open class SBUContentBaseMessageCell: SBUBaseMessageCell {
     
     var reactionView: SBUMessageReactionView = SBUMessageReactionView()
     lazy var profileContentSpacing: UIView = UIView()
-    private let messageSpacing = UIView()
+    
+    private let messageSpacing: UIView = {
+      let view = UIView()
+      view.backgroundColor = .black
+      return view
+    }()
+    
     lazy var messageContentSpacing: UIView = UIView()
+    
+    lazy var stateStackView: UIStackView = {
+      let stack = SBUStackView(axis: .horizontal, alignment: .leading, spacing: 0)
+      stack.translatesAutoresizingMaskIntoConstraints = false
+      return stack
+    }()
 
+    lazy var stateSpacing: UIView = {
+      let view = UIView()
+      view.backgroundColor = .red
+      NSLayoutConstraint.activate([
+        view.widthAnchor.constraint(greaterThanOrEqualToConstant: 0)
+      ])
+      view.setContentHuggingPriority(.defaultLow, for: .horizontal)
+      return view
+    }()
     
     // MARK: - Gesture Recognizers
     
@@ -140,7 +161,7 @@ open class SBUContentBaseMessageCell: SBUBaseMessageCell {
                           self.mainContainerView,
                           self.messageSpacing
                       ]),
-                      self.stateView
+                      self.stateStackView.setHStack([self.stateView, self.stateSpacing])
                     ])
                 ])
             ])
@@ -162,11 +183,13 @@ open class SBUContentBaseMessageCell: SBUBaseMessageCell {
             self.messageContentSpacing.widthAnchor.constraint(equalToConstant: 35),
             self.messageContentSpacing.heightAnchor.constraint(equalToConstant: 4)
         ])
-        
+      
+    
         self.userNameStackView
             .setConstraint(from: self.messageContentView, left: 12, right: 12, bottom: 0)
             .setConstraint(from: self.messageContentView, top: 0, priority: .defaultLow)
-      
+    
+        self.stateView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     }
     
     open override func setupActions() {
@@ -292,10 +315,13 @@ open class SBUContentBaseMessageCell: SBUBaseMessageCell {
             ])
           
             self.messageHStackView.setHStack([
-                self.mainContainerView,
-                self.messageSpacing
+              self.messageSpacing,
+              self.mainContainerView
+                
             ])
             (self.stateView as? SBUMessageStateView)?.configure(with: configuration)
+          
+        
         }
         
         // TODO: (모듈화 할 때) 백워드가 많이 깨질거라 cell 쪽 구조를 편한 방향으로 싹 바꾸는 것도 좋아보임
@@ -304,6 +330,10 @@ open class SBUContentBaseMessageCell: SBUBaseMessageCell {
         }
         // MARK: Group messages
         self.setMessageGrouping()
+      
+      NSLayoutConstraint.activate([
+        self.stateStackView.widthAnchor.constraint(equalTo: self.messageHStackView.widthAnchor)
+      ])
     }
     
     public func setupQuotedMessageView() {
@@ -349,6 +379,7 @@ open class SBUContentBaseMessageCell: SBUBaseMessageCell {
             self.quotedMessageView?.removeFromSuperview()
         }
         self.updateContentsPosition()
+      
     }
     
     public func setMessageGrouping() {
@@ -383,7 +414,11 @@ open class SBUContentBaseMessageCell: SBUBaseMessageCell {
         self.userProfileStackView.arrangedSubviews.forEach {
             $0.removeFromSuperview()
         }
-        
+      
+        self.stateStackView.arrangedSubviews.forEach {
+          $0.removeFromSuperview()
+        }
+      
         switch self.position {
             case .left:
                 self.userNameStackView.alignment = .leading
@@ -398,9 +433,12 @@ open class SBUContentBaseMessageCell: SBUBaseMessageCell {
                     self.mainContainerView,
                     self.messageSpacing
                 ])
+          
+                self.stateStackView.setHStack([self.stateView, self.stateSpacing])
+          
                 self.messageVStackView.setVStack([
                   self.messageHStackView,
-                  self.stateView
+                  self.stateStackView
                 ])
                 self.contentVStackView.setVStack([
                     self.quotedMessageView,
@@ -414,14 +452,18 @@ open class SBUContentBaseMessageCell: SBUBaseMessageCell {
             case .right:
                 self.userNameStackView.alignment = .trailing
                 self.messageVStackView.alignment = .trailing
+                
           
                 self.messageHStackView.setHStack([
                     self.messageSpacing,
                     self.mainContainerView
                 ])
+          
+                self.stateStackView.setHStack([self.stateView, self.stateSpacing])
+          
                 self.messageVStackView.setVStack([
                   self.messageHStackView,
-                  self.stateView
+                  self.stateStackView
                 ])
                 self.contentVStackView.setVStack([
                     self.quotedMessageView,
@@ -437,8 +479,6 @@ open class SBUContentBaseMessageCell: SBUBaseMessageCell {
             case .center:
                 break
         }
-      
-        
         
         let profileImageView = (self.profileView as? SBUMessageProfileView)?.imageView
         let timeLabel = (self.stateView as? SBUMessageStateView)?.timeLabel
