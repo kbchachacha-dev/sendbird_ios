@@ -16,7 +16,7 @@ open class SBUBaseChannelViewController: SBUBaseViewController {
     
     @SBUThemeWrapper(theme: SBUTheme.channelTheme)
     public var theme: SBUChannelTheme
-    
+    public var upsertMessageHandler: (() -> Void)? = nil
     // MARK: - Properties (View)
     
     public private(set) lazy var tableView = UITableView()
@@ -546,6 +546,9 @@ open class SBUBaseChannelViewController: SBUBaseViewController {
                                       needReload: Bool) {
         SBULog.info("First : \(String(describing: messages?.first)), Last : \(String(describing: messages?.last))")
         var needMarkAsRead = false
+        if messages?.first is SBDUserMessage || messages?.first is SBDFileMessage {
+            self.upsertMessageHandler?()
+        }
         
         messages?.forEach { message in
             if let index = SBUUtils.findIndex(of: message, in: self.messageList) {
