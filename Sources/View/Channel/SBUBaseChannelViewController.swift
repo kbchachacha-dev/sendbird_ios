@@ -16,7 +16,7 @@ open class SBUBaseChannelViewController: SBUBaseViewController {
     
     @SBUThemeWrapper(theme: SBUTheme.channelTheme)
     public var theme: SBUChannelTheme
-    public var upsertMessageHandler: (() -> Void)? = nil
+    public var inputMessageHandler: (() -> Void)? = nil
     // MARK: - Properties (View)
     
     public private(set) lazy var tableView = UITableView()
@@ -69,6 +69,7 @@ open class SBUBaseChannelViewController: SBUBaseViewController {
     var lastSeenIndexPath: IndexPath?
     
     private var isKeyboardShowing: Bool = false
+    private var initMessageCount: Int = 0
     
     // MARK: - Constraints
     // for constraint
@@ -302,6 +303,7 @@ open class SBUBaseChannelViewController: SBUBaseViewController {
         channelViewModel.initialLoadObservable.observe { [weak self] fromCache, messages in
             guard let self = self else { return }
             SBULog.info("Initial messages count : \(messages.count)")
+            self.initMessageCount = messages.count
             
             self.shouldDismissLoadingIndicator()
             
@@ -546,10 +548,7 @@ open class SBUBaseChannelViewController: SBUBaseViewController {
                                       needReload: Bool) {
         SBULog.info("First : \(String(describing: messages?.first)), Last : \(String(describing: messages?.last))")
         var needMarkAsRead = false
-        if messages?.first is SBDUserMessage || messages?.first is SBDFileMessage {
-            self.upsertMessageHandler?()
-        }
-        
+      
         messages?.forEach { message in
             if let index = SBUUtils.findIndex(of: message, in: self.messageList) {
                 self.messageList.remove(at: index)
@@ -985,6 +984,11 @@ open class SBUBaseChannelViewController: SBUBaseViewController {
             self.upsertMessagesInList(messages: [userMessage], needReload: true)
         }
                
+        if let _ = preSendMessage, initMessageCount <= 1 {
+            initMessageCount += 1
+            inputMessageHandler?()
+        }
+      
         if let preSendMessage = preSendMessage,
            self.messageListParams.belongs(to: preSendMessage)
         {
