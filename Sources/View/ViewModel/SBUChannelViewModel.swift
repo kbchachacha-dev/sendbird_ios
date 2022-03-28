@@ -44,6 +44,7 @@ class SBUChannelViewModel: SBULoadableViewModel {
     let messageDeleteObservable = SBUObservable<[Int64]>()
     let channelChangeObservable = SBUObservable<(SBDMessageContext, SBDGroupChannel?)>()
     let hugeGapObservable = SBUObservable<Void>()
+    let unreadMessageCountObservable = SBUObservable<Int>()
     
     // MARK: - Constructor
     
@@ -166,7 +167,11 @@ class SBUChannelViewModel: SBULoadableViewModel {
             initialMessages : \(String(describing: initialMessages))
             """
         )
-        
+      
+        if let unreadMessageCount = self.groupChannel?.unreadMessageCount {
+            self.unreadMessageCountObservable.set(value: Int(unreadMessageCount))
+        }
+      
         self.reset()
         self.createMessageCollection(startingPoint: startingPoint ?? LLONG_MAX)
         
@@ -292,6 +297,7 @@ class SBUChannelViewModel: SBULoadableViewModel {
         self.messageDeleteObservable.dispose()
         self.channelChangeObservable.dispose()
         self.hugeGapObservable.dispose()
+        self.unreadMessageCountObservable.dispose()
     }
 }
 

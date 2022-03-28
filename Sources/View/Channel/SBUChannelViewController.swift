@@ -124,6 +124,7 @@ open class SBUChannelViewController: SBUBaseChannelViewController {
     
     let spacer = UIView()
 
+    public var unreadMessageCount: Int = 0
     private var newMessagesCount: Int = 0
     
     // MARK: - Logic properties (Public)
@@ -484,6 +485,11 @@ open class SBUChannelViewController: SBUBaseChannelViewController {
     override func bindViewModel() {
         super.bindViewModel()
         guard let channelViewModel = self.channelViewModel else { return }
+      
+        channelViewModel.unreadMessageCountObservable.observe { [weak self] count in
+            guard let self = self else { return }
+            self.unreadMessageCount = count
+        }
         
         channelViewModel.channelChangeObservable.observe { [weak self] messageContext, channel in
             guard let self = self else { return }
