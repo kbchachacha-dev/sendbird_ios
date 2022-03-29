@@ -60,6 +60,13 @@ open class SBUMessageProfileView: SBUView {
     }
     
     open func configure(urlString: String) {
+      
+        if SBUGlobals.usingCustomProfile {
+            self.imageView.loadImage(urlString: SBUGlobals.senderProfileUrl,
+                                     placeholder: UIImage(named: SBUGlobals.senderProfilePlaceHolder))
+            self.imageView.backgroundColor = theme.userPlaceholderBackgroundColor
+            return
+        }
         self.urlString = urlString
         
         self.imageView.loadImage(

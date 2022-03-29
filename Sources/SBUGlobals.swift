@@ -51,5 +51,10 @@ public class SBUGlobals: NSObject {
     /// Image resizing size value that will be used when sending image. Default value is a device screen size.
     /// - Since: 2.0.0
     public static var imageResizingSize: CGSize = UIScreen.main.bounds.size;
+  
+    /// sender profile image url with placeholder.
+    public static var usingCustomProfile: Bool = true
+    public static var senderProfileUrl: String = ""
+    public static var senderProfilePlaceHolder: String = ""
     
 }
