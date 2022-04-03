@@ -17,6 +17,7 @@ open class SBUBaseChannelViewController: SBUBaseViewController {
     @SBUThemeWrapper(theme: SBUTheme.channelTheme)
     public var theme: SBUChannelTheme
     public var inputMessageHandler: (() -> Void)? = nil
+    public var userProfileTapHandler: (() -> Void)? = nil
     // MARK: - Properties (View)
     
     public private(set) lazy var tableView = UITableView()
@@ -224,17 +225,18 @@ open class SBUBaseChannelViewController: SBUBaseViewController {
     /// - Parameter user: `SBUUser` object used for user profile configuration
     ///
     /// - Since: 1.2.2
-    open func setUserProfileTapGestureHandler(_ user: SBUUser) {
+    open func setUserProfileTapGestureHandler(_ user: SBUUser) { 
         self.dismissKeyboard()
-        if let userProfileView = self.userProfileView as? SBUUserProfileView,
-            let baseView = self.navigationController?.view,
-            SBUGlobals.UsingUserProfile
-        {
-            userProfileView.show(
-                baseView: baseView,
-                user: user
-            )
-        }
+        self.userProfileTapHandler?()
+//        if let userProfileView = self.userProfileView as? SBUUserProfileView,
+//            let baseView = self.navigationController?.view,
+//            SBUGlobals.UsingUserProfile
+//        {
+//            userProfileView.show(
+//                baseView: baseView,
+//                user: user
+//            )
+//        }
     }
     
     // MARK: - View Binding
@@ -1637,9 +1639,7 @@ extension SBUBaseChannelViewController: SBUMessageInputViewDelegate {
         else {
             var sourceType: UIImagePickerController.SourceType = .photoLibrary
             let mediaType: [String] = [
-                String(kUTTypeImage),
-                String(kUTTypeGIF),
-                String(kUTTypeMovie)
+                String(kUTTypeImage)
             ]
             
             switch type {

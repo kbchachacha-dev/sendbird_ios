@@ -851,6 +851,7 @@ open class SBUChannelViewController: SBUBaseChannelViewController {
                 guard fileMessage.sender?.userId == SBUGlobals.CurrentUser?.userId else { return }
                 self.resendMessage(failedMessage: fileMessage)
             case .succeeded:
+                SBULoading.start()
                 self.openFile(fileMessage: fileMessage)
             default:
                 break
@@ -868,16 +869,20 @@ open class SBUChannelViewController: SBUBaseChannelViewController {
         // File message type
         switch fileMessage.sendingStatus {
         case .pending:
+            SBULoading.stop()
             break
         case .failed:
             guard fileMessage.sender?.userId == SBUGlobals.CurrentUser?.userId else { return }
             self.resendMessage(failedMessage: fileMessage)
+            SBULoading.stop()
         case .succeeded:
             switch SBUUtils.getFileType(by: fileMessage) {
             case .image:
                 let viewer = SBUFileViewer(fileMessage: fileMessage, delegate: self)
                 let naviVC = UINavigationController(rootViewController: viewer)
-                self.present(naviVC, animated: true)
+                self.present(naviVC, animated: true) {
+                    SBULoading.stop()
+                }
             case .etc, .pdf:
                 guard let url = URL(string: fileMessage.url),
                    let fileURL = SBUCacheManager.saveAndLoadFileToLocal(url: url, fileName: fileMessage.name)  else {
@@ -948,24 +953,26 @@ open class SBUChannelViewController: SBUBaseChannelViewController {
                     self.showMenuModal(cell, indexPath: indexPath,  message: userMessage, types: types)
                 }
             case let fileMessage as SBDFileMessage:
-                let isCurrentUser = fileMessage.sender?.userId == SBUGlobals.CurrentUser?.userId
-                var types: [MessageMenuItem] = []
-                if isCurrentUser {
-                    types = SBUGlobals.ReplyTypeToUse == .none
-                        ? [.save, .delete]
-                        : [.save, .delete, .reply]
-                } else {
-                    types = SBUGlobals.ReplyTypeToUse == .none
-                        ? [.save]
-                        : [.save, .reply]
-                }
-                cell.isSelected = true
-                
-                if SBUEmojiManager.useReaction(channel: self.channel) {
-                    self.showMenuViewController(cell, message: message, types: types)
-                } else {
-                    self.showMenuModal(cell, indexPath: indexPath, message: fileMessage, types: types)
-                }
+                // fileMessage longTap gesture disable
+                break
+//                let isCurrentUser = fileMessage.sender?.userId == SBUGlobals.CurrentUser?.userId
+//                var types: [MessageMenuItem] = []
+//                if isCurrentUser {
+//                    types = SBUGlobals.ReplyTypeToUse == .none
+//                        ? [.save, .delete]
+//                        : [.save, .delete, .reply]
+//                } else {
+//                    types = SBUGlobals.ReplyTypeToUse == .none
+//                        ? [.save]
+//                        : [.save, .reply]
+//                }
+//                cell.isSelected = true
+//
+//                if SBUEmojiManager.useReaction(channel: self.channel) {
+//                    self.showMenuViewController(cell, message: message, types: types)
+//                } else {
+//                    self.showMenuModal(cell, indexPath: indexPath, message: fileMessage, types: types)
+//                }
             default:
                 break
             }

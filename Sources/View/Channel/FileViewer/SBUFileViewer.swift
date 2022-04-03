@@ -430,11 +430,7 @@ extension SBUFileViewer {
                 ),
                 for: .normal
             )
-            self.deleteButton.setImage(
-                SBUIconSetType.iconDelete.image(with: SBUColorSet.ondark01,
-                                                to: SBUIconSetType.Metric.iconActionSheetItem),
-                for: .normal
-            )
+            self.deleteButton.isUserInteractionEnabled = false
         }
         
         override func layoutSubviews() {

@@ -200,10 +200,10 @@ open class SBUContentBaseMessageCell: SBUBaseMessageCell {
             action: #selector(self.onTapContentView(sender:)))
         )
 
-//        self.profileView.addGestureRecognizer(UITapGestureRecognizer(
-//            target: self,
-//            action: #selector(self.onTapUserProfileView(sender:)))
-//        )
+        self.profileView.addGestureRecognizer(UITapGestureRecognizer(
+            target: self,
+            action: #selector(self.onTapUserProfileView(sender:)))
+        )
 
         self.reactionView.emojiTapHandler = { [weak self] emojiKey in
             guard let self = self else { return }
