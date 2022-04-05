@@ -1360,6 +1360,12 @@ open class SBUBaseChannelViewController: SBUBaseViewController {
                     parentMessage = message
                 default: break
             }
+          
+            if Int(imageData?.count ?? 0) > 10000000 {
+              SBUToastManager.showToast(parentVC: self, type: .fileSizeOver)
+              return
+            }
+          
             self.messageInputView.setMode(.none)
         
             self.sendFileMessage(
@@ -1377,6 +1383,11 @@ open class SBUBaseChannelViewController: SBUBaseViewController {
         switch mimeType {
         case "image/gif":
             let gifData = try? Data(contentsOf: imageUrl)
+          
+            if Int(gifData?.count ?? 0) > 10000000 {
+              SBUToastManager.showToast(parentVC: self, type: .fileSizeOver)
+              return
+            }
                 
             var parentMessage: SBDBaseMessage? = nil
             switch self.messageInputView.option {
@@ -1403,8 +1414,14 @@ open class SBUBaseChannelViewController: SBUBaseViewController {
                 compressionQuality: SBUGlobals.UsingImageCompression ?
                     SBUGlobals.imageCompressionRate : 1.0
             )
+          
+            if Int(imageData?.count ?? 0) > 10000000 {
+              SBUToastManager.showToast(parentVC: self, type: .fileSizeOver)
+              return
+            }
+            
             var parentMessage: SBDBaseMessage? = nil
-            switch self.messageInputView.option {
+            switch self.messageInputView.option { 
                 case .quoteReply(let message):
                     parentMessage = message
                 default: break

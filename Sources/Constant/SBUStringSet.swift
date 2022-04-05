@@ -82,6 +82,7 @@ public class SBUStringSet: NSObject {
     public static var Channel_Failure_Download_file = "Couldn’t download file."
     public static var Channel_Failure_Open_file = "Couldn’t open file."
     public static var Channel_New_Message_File = "uploaded a file"
+    public static var Channel_Size_over_File = "10mb 이하의 이미지 파일만 전송 가능합니다."
     public static var Channel_New_Message: (Int) -> String = { count in
         switch count {
         case 1:

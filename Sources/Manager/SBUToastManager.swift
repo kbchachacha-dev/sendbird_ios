@@ -12,6 +12,7 @@ enum ToastType {
     case fileDownloadSuccess
     case fileDownloadFailed
     case fileOpenFailed
+    case fileSizeOver
 }
 
 class SBUToastManager: NSObject {
@@ -24,6 +25,8 @@ class SBUToastManager: NSObject {
             title = SBUStringSet.Channel_Success_Download_file
         case .fileOpenFailed:
             title = SBUStringSet.Channel_Failure_Open_file
+        case .fileSizeOver:
+            title = SBUStringSet.Channel_Size_over_File
         }
         
         self.showToast(baseViewController: parentVC, title: title)
