@@ -403,6 +403,11 @@ open class SBUMessageInputView: UIView, SBUActionSheetDelegate, UITextViewDelega
         self.editView.isHidden = true
         self.quoteMessageView?.isHidden = true
         self.divider.isHidden = true
+      
+        self.layer.shadowOffset = CGSize(width: 0, height: -2)
+        self.layer.shadowOpacity = 0.1
+        self.layer.shadowRadius = 5
+        self.layer.shadowColor = UIColor.black.cgColor
         
         // baseStackView
         // + ---------------------------------------------------------------- +
@@ -592,10 +597,10 @@ open class SBUMessageInputView: UIView, SBUActionSheetDelegate, UITextViewDelega
         }
 
         // textView
-        self.textView?.backgroundColor = theme.textFieldBackgroundColor
+        self.textView?.backgroundColor = SBUColorSet.kbcTextViewBackground
         self.textView?.tintColor = theme.textFieldTintColor
         self.textView?.textColor = theme.textFieldTextColor
-        self.textView?.layer.borderColor = theme.textFieldBorderColor.cgColor
+        self.textView?.layer.borderColor = SBUColorSet.kbcTextViewBackground.cgColor
         self.textView?.font = theme.textFieldPlaceholderFont
         
         // addButton
@@ -806,15 +811,22 @@ open class SBUMessageInputView: UIView, SBUActionSheetDelegate, UITextViewDelega
     public func textViewDidChange(_ textView: UITextView) {
         self.placeholderLabel.isHidden = !textView.text.isEmpty
         self.updateTextViewHeight()
-        
+      
         let text = textView.text ?? ""
+    
         if self.editView.isHidden {
             self.sendButton?.isHidden = !showsSendButton &&
                 text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
             self.textViewTrailingPaddingView.isHidden = self.sendButton?.isHidden == true
             self.layoutIfNeeded()
         }
-        
+        if text.count > 0 {
+            self.textView?.layer.borderColor = SBUColorSet.kbcTextViewBorder.cgColor
+            self.textView?.backgroundColor = UIColor.white
+        } else {
+            self.textView?.layer.borderColor = SBUColorSet.kbcTextViewBackground.cgColor
+            self.textView?.backgroundColor = SBUColorSet.kbcTextViewBackground
+        }
         self.delegate?.messageInputView?(self, didChangeText: text)
     }
 
@@ -830,7 +842,7 @@ open class SBUMessageInputView: UIView, SBUActionSheetDelegate, UITextViewDelega
         } else if text.isEmpty, textView.text?.count ?? 0 <= 1 {
             self.delegate?.messageInputViewDidEndTyping?()
         }
-
+      
         return true
     }
 
