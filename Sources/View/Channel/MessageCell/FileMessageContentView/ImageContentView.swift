@@ -108,6 +108,16 @@ class ImageContentView: BaseFileContentView {
                 urlString = ""
             }
         }
+      
+        switch position {
+          case .left:
+            self.roundCorners(corners: [.topRight, .bottomLeft, .bottomRight], radius: 16)
+            self.clipsToBounds = true
+          case .right:
+            self.roundCorners(corners: [.topLeft, .bottomLeft, .bottomRight], radius: 16)
+            self.clipsToBounds = true
+          default: break
+        }
         
         let thumbnailSize = message.channelType == CHANNEL_TYPE_GROUP ?
             SBUConstant.thumbnailSize : SBUConstant.openChannelThumbnailSize
