@@ -135,9 +135,12 @@ class SBUFileViewer: SBUBaseViewController, UIScrollViewDelegate {
     override func setupStyles() {
         self.view.backgroundColor = SBUColorSet.background600
         
-        self.navigationController?.navigationBar.backgroundColor = .clear
-        self.navigationController?.navigationBar.barTintColor = SBUColorSet.overlay01
+//        self.navigationController?.navigationBar.backgroundColor = .clear
+//        self.navigationController?.navigationBar.barTintColor = SBUColorSet.overlay01
 
+        // For iOS 15
+        self.navigationController?.sbu_setupNavigationBarAppearance(tintColor: SBUColorSet.background600)
+      
         self.scrollView.backgroundColor = .clear
         self.scrollView.showsVerticalScrollIndicator = false
         self.scrollView.showsHorizontalScrollIndicator = false
