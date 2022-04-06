@@ -187,8 +187,8 @@ open class SBUBaseChannelViewController: SBUBaseViewController {
         self.tableView.separatorStyle = .none
         self.tableView.allowsSelection = false
         self.tableView.keyboardDismissMode = .interactive
-        self.tableView.bounces = false
-        self.tableView.alwaysBounceVertical = false
+        self.tableView.bounces = true
+        self.tableView.alwaysBounceVertical = true
     }
     
     deinit {

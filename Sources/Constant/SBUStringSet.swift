@@ -142,7 +142,7 @@ public class SBUStringSet: NSObject {
 
 
     // MARK: - Message Input
-    public static var MessageInput_Text_Placeholder = "Type a message"
+    public static var MessageInput_Text_Placeholder = "메세지를 입력해주세요."
     public static var MessageInput_Text_Unavailable = "Chat is unavailable in this channel"
     public static var MessageInput_Text_Muted = "You are muted"
     public static var MessageInput_Text_Reply = "Reply to message"

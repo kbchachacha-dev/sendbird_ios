@@ -322,7 +322,7 @@ open class SBUChannelViewController: SBUBaseChannelViewController {
             self.tableView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0),
             self.tableView.bottomAnchor.constraint(
                 equalTo: self.messageInputView.topAnchor,
-                constant: 0
+                constant: -10
             )
         ])
         
