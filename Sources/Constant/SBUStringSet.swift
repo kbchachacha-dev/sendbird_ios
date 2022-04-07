@@ -29,7 +29,7 @@ public class SBUStringSet: NSObject {
     public static var ChoosePhoto = "Choose photo"
     public static var RemovePhoto = "Remove photo"
     public static var Search = "Search"
-    public static var Reply = "답장"
+    public static var Reply = "Reply"
     
     // MARK: - Alert
     public static var Alert_Delete = "Are you sure you want to delete?"

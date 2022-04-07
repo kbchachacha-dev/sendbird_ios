@@ -78,11 +78,6 @@ open class SBUContentBaseMessageCell: SBUBaseMessageCell {
         return SBUStackView(axis: .horizontal, alignment: .bottom, spacing: 4)
     }()
     
-    // [stateView above mainContainerview]
-    public lazy var messageVStackView: UIStackView = {
-        return SBUStackView(axis: .vertical, alignment: .leading, spacing: 4)        
-    }()
-  
     public var mainContainerView: SBUSelectableStackView = {
         let mainView = SBUSelectableStackView()
         mainView.layer.cornerRadius = 3
@@ -135,12 +130,10 @@ open class SBUContentBaseMessageCell: SBUBaseMessageCell {
                 self.messageContentSpacing,
                 self.contentVStackView.setVStack([
                     self.quotedMessageView,
-                    self.messageVStackView.setVStack([
-                      self.messageHStackView.setHStack([
-                          self.mainContainerView,
-                          self.messageSpacing
-                      ]),
-                      self.stateView
+                    self.messageHStackView.setHStack([
+                        self.mainContainerView,
+                        self.stateView,
+                        self.messageSpacing
                     ])
                 ])
             ])
@@ -162,11 +155,11 @@ open class SBUContentBaseMessageCell: SBUBaseMessageCell {
             self.messageContentSpacing.widthAnchor.constraint(equalToConstant: 35),
             self.messageContentSpacing.heightAnchor.constraint(equalToConstant: 4)
         ])
+      
         
         self.userNameStackView
             .setConstraint(from: self.messageContentView, left: 12, right: 12, bottom: 0)
             .setConstraint(from: self.messageContentView, top: 0, priority: .defaultLow)
-      
     }
     
     open override func setupActions() {
@@ -271,28 +264,17 @@ open class SBUContentBaseMessageCell: SBUBaseMessageCell {
                 position: self.position,
                 isQuotedReplyMessage: usingQuotedMessage ? isQuotedReplyMessage : false
             )
-            
-            self.messageVStackView.arrangedSubviews.forEach {
-                $0.removeFromSuperview()
-            }
-          
             self.messageHStackView.arrangedSubviews.forEach {
                 $0.removeFromSuperview()
             }
-          
             self.stateView = SBUMessageStateView(
                 isQuotedReplyMessage: usingQuotedMessage
                 ? isQuotedReplyMessage
                 : false
             )
-          
-            self.messageVStackView.setVStack([
-                self.messageHStackView,
-                self.stateView
-            ])
-          
             self.messageHStackView.setHStack([
                 self.mainContainerView,
+                self.stateView,
                 self.messageSpacing
             ])
             (self.stateView as? SBUMessageStateView)?.configure(with: configuration)
@@ -371,11 +353,6 @@ open class SBUContentBaseMessageCell: SBUBaseMessageCell {
             $0.removeFromSuperview()
         }
         
-      
-        self.messageVStackView.arrangedSubviews.forEach {
-            $0.removeFromSuperview()
-        }
-      
         self.messageHStackView.arrangedSubviews.forEach {
             $0.removeFromSuperview()
         }
@@ -387,58 +364,49 @@ open class SBUContentBaseMessageCell: SBUBaseMessageCell {
         switch self.position {
             case .left:
                 self.userNameStackView.alignment = .leading
-                self.messageVStackView.alignment = .leading
           
                 self.userProfileStackView.setHStack([
                   self.profileView,
                   self.profileContentSpacing,
                   self.userNameView
                 ])
+          
                 self.messageHStackView.setHStack([
                     self.mainContainerView,
+                    self.stateView,
                     self.messageSpacing
-                ])
-                self.messageVStackView.setVStack([
-                  self.messageHStackView,
-                  self.stateView
                 ])
                 self.contentVStackView.setVStack([
                     self.quotedMessageView,
-                    self.messageVStackView
+                    self.messageHStackView
                 ])
                 self.contentHStackView.setHStack([
                     self.messageContentSpacing,
                     self.contentVStackView
                 ])
+                
                 self.mainContainerView.roundCorners(corners: [.topRight, .bottomLeft, .bottomRight], radius: 16)
             case .right:
                 self.userNameStackView.alignment = .trailing
-                self.messageVStackView.alignment = .trailing
-          
                 self.messageHStackView.setHStack([
                     self.messageSpacing,
+                    self.stateView,
                     self.mainContainerView
-                ])
-                self.messageVStackView.setVStack([
-                  self.messageHStackView,
-                  self.stateView
                 ])
                 self.contentVStackView.setVStack([
                     self.quotedMessageView,
-                    self.messageVStackView
+                    self.messageHStackView
                 ])
                 self.contentHStackView.setHStack([
                     self.contentVStackView,
                     self.profileContentSpacing
                 ])
-                self.mainContainerView.roundCorners(corners: [.topLeft, .bottomLeft, .bottomRight], radius: 16)
           
+                self.mainContainerView.roundCorners(corners: [.topLeft, .bottomLeft, .bottomRight], radius: 16)
                 
             case .center:
                 break
         }
-      
-        
         
         let profileImageView = (self.profileView as? SBUMessageProfileView)?.imageView
         let timeLabel = (self.stateView as? SBUMessageStateView)?.timeLabel
@@ -470,7 +438,7 @@ open class SBUContentBaseMessageCell: SBUBaseMessageCell {
         if usingQuotedMessage {
             self.userNameView.isHidden = true
         }
-    
+        
         self.updateTopAnchorConstraint()
     }
 

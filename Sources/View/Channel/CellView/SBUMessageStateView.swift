@@ -60,7 +60,7 @@ open class SBUMessageStateView: SBUView {
     public lazy var stackView: SBUStackView = {
         return self.isQuotedReplyMessage
         ? SBUStackView(axis: .horizontal, alignment: .center, spacing: 4)
-        : SBUStackView(axis: .horizontal, alignment: .leading)
+        : SBUStackView(axis: .vertical, alignment: .leading)
     }()
   
     public lazy var timeStackView: SBUStackView = {
@@ -128,12 +128,11 @@ open class SBUMessageStateView: SBUView {
         super.setupViews()
         
         self.addSubview(self.stackView)
-        self.stackView.setHStack([
+        self.stackView.setVStack([
             self.stateImageView,
             self.timeStackView.setHStack([
               self.timeLabel, self.receiptLabel
-            ]),
-            UIView()
+            ])
         ])
     }
     
@@ -230,7 +229,7 @@ open class SBUMessageStateView: SBUView {
                
                 self.stackView.alignment = isQuotedReplyMessage
                 ? .center
-                : .leading
+                : .trailing
                 self.timeLabel.textAlignment = isQuotedReplyMessage
                 ? .left
                 : .right
