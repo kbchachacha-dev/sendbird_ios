@@ -415,16 +415,16 @@ open class SBUContentBaseMessageCell: SBUBaseMessageCell {
         switch self.groupPosition {
             case .top:
                 self.userNameView.isHidden = self.position == .right
-                profileImageView?.isHidden = true
+                profileImageView?.isHidden = false
                 timeLabel?.isHidden = true
                 receiptLabel?.isHidden = true
             case .middle:
-                self.userNameView.isHidden = true
-                profileImageView?.isHidden = true
+                self.userNameView.isHidden = false
+                profileImageView?.isHidden = false
                 timeLabel?.isHidden = true
                 receiptLabel?.isHidden = true
             case .bottom:
-                self.userNameView.isHidden = true
+                self.userNameView.isHidden = false
                 profileImageView?.isHidden = false
                 timeLabel?.isHidden = false
                 receiptLabel?.isHidden = false
