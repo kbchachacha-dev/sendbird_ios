@@ -1345,6 +1345,13 @@ open class SBUBaseChannelViewController: SBUBaseViewController {
         
         guard let imageUrl = tempImageUrl else {
             let originalImage = info[.originalImage] as? UIImage
+          
+            guard let originalData = originalImage?.jpegData(compressionQuality: 1.0) else { return }
+            if Int(originalData.count) > 30000000 {
+              SBUToastManager.showToast(parentVC: self, type: .fileSizeOver)
+              return
+            }
+            
             // for Camera capture
             guard let image = originalImage?
                 .fixedOrientation()
@@ -1361,10 +1368,7 @@ open class SBUBaseChannelViewController: SBUBaseViewController {
                 default: break
             }
           
-            if Int(imageData?.count ?? 0) > 10000000 {
-              SBUToastManager.showToast(parentVC: self, type: .fileSizeOver)
-              return
-            }
+           
           
             self.messageInputView.setMode(.none)
         
@@ -1384,7 +1388,7 @@ open class SBUBaseChannelViewController: SBUBaseViewController {
         case "image/gif":
             let gifData = try? Data(contentsOf: imageUrl)
           
-            if Int(gifData?.count ?? 0) > 10000000 {
+            if Int(gifData?.count ?? 0) > 30000000 {
               SBUToastManager.showToast(parentVC: self, type: .fileSizeOver)
               return
             }
@@ -1406,6 +1410,13 @@ open class SBUBaseChannelViewController: SBUBaseViewController {
             
         default:
             let originalImage = info[.originalImage] as? UIImage
+          
+            guard let originalData = originalImage?.jpegData(compressionQuality: 1.0) else { return }
+            if Int(originalData.count) > 30000000 {
+              SBUToastManager.showToast(parentVC: self, type: .fileSizeOver)
+              return
+            }
+            
             guard let image = originalImage?
                 .fixedOrientation()
                 .resize(with: SBUGlobals.imageResizingSize) else { return }
@@ -1415,11 +1426,6 @@ open class SBUBaseChannelViewController: SBUBaseViewController {
                     SBUGlobals.imageCompressionRate : 1.0
             )
           
-            if Int(imageData?.count ?? 0) > 10000000 {
-              SBUToastManager.showToast(parentVC: self, type: .fileSizeOver)
-              return
-            }
-            
             var parentMessage: SBDBaseMessage? = nil
             switch self.messageInputView.option { 
                 case .quoteReply(let message):

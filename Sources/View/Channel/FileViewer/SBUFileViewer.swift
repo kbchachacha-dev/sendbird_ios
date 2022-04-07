@@ -154,9 +154,9 @@ class SBUFileViewer: SBUBaseViewController, UIScrollViewDelegate {
          
         self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
         
-        let gesture = UITapGestureRecognizer(target: self,
-                                             action: #selector(self.onClickImage(sender:)))
-        self.view.addGestureRecognizer(gesture)
+//        let gesture = UITapGestureRecognizer(target: self,
+//                                             action: #selector(self.onClickImage(sender:)))
+//        self.view.addGestureRecognizer(gesture)
 
         self.view.bringSubviewToFront(self.bottomView)
 
